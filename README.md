@@ -1,2 +1,3 @@
 # Translate
 lcx
+whx
