@@ -1,0 +1,447 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Translate App Api",
+    "description": "翻译应用接口",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/2749771487/TranslateApp/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/records": {
+      "post": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "保存翻译记录",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslationRecord"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "记录保存成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/records/{userId}": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "获取用户翻译记录",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings/languages": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "获取语言设置",
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "更新语言设置",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/settings_languages_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "更新成功"
+          }
+        }
+      }
+    },
+    "/translate/ocr": {
+      "post": {
+        "tags": [
+          "OCR"
+        ],
+        "summary": "OCR图像翻译",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/translate_ocr_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "翻译成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/translate/speech": {
+      "post": {
+        "tags": [
+          "Speech"
+        ],
+        "summary": "语音翻译",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/translate_speech_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "翻译成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/translate/text": {
+      "post": {
+        "tags": [
+          "Text"
+        ],
+        "summary": "文本翻译",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/translate_text_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "翻译成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "获取API配置",
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Config"
+        ],
+        "summary": "更新API配置",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "更新成功"
+          }
+        }
+      }
+    },
+    "/navigation/{page}": {
+      "get": {
+        "tags": [
+          "Navigation"
+        ],
+        "summary": "页面跳转",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "home",
+                "history",
+                "settings"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "重定向到指定页面"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Success"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "TranslationRecord": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "user123"
+          },
+          "sourceText": {
+            "type": "string",
+            "example": "Hello"
+          },
+          "sourceLanguage": {
+            "type": "string",
+            "example": "en"
+          },
+          "targetText": {
+            "type": "string",
+            "example": "你好"
+          },
+          "targetLanguage": {
+            "type": "string",
+            "example": "zh"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-09-01T12:00:00Z"
+          }
+        }
+      },
+      "ApiConfig": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "string",
+            "example": "abcd1234"
+          },
+          "endpoint": {
+            "type": "string",
+            "example": "https://api.example.com"
+          }
+        }
+      },
+      "settings_languages_body": {
+        "type": "object",
+        "properties": {
+          "sourceLanguage": {
+            "type": "string"
+          },
+          "targetLanguage": {
+            "type": "string"
+          }
+        }
+      },
+      "translate_ocr_body": {
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary"
+          },
+          "sourceLang": {
+            "type": "string",
+            "example": "auto"
+          },
+          "targetLang": {
+            "type": "string",
+            "example": "zh"
+          }
+        }
+      },
+      "translate_speech_body": {
+        "type": "object",
+        "properties": {
+          "audio": {
+            "type": "string",
+            "format": "binary"
+          },
+          "sourceLang": {
+            "type": "string",
+            "example": "en"
+          },
+          "targetLang": {
+            "type": "string",
+            "example": "zh"
+          }
+        }
+      },
+      "translate_text_body": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Hello"
+          },
+          "sourceLang": {
+            "type": "string",
+            "example": "en"
+          },
+          "targetLang": {
+            "type": "string",
+            "example": "zh"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "UserIdParam": {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "PageParam": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        }
+      },
+      "PageSizeParam": {
+        "name": "pageSize",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 20
+        }
+      }
+    }
+  }
+}
